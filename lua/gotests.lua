@@ -41,7 +41,6 @@ local function setup_commands()
       end,
       opt = {}
     },
-
   }
 
   for _, cmd in ipairs(cmds) do
