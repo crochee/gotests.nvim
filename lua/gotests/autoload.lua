@@ -12,7 +12,7 @@ local function range(from, to)
       end, nil, from - step
 end
 
-local function join(config, parallel, nosubtests)
+local function join(config)
   local tmpl = ''
   if config.template ~= '' then
     tmpl = '-template ' .. vim.fn.shellescape(config.template)
@@ -20,16 +20,10 @@ local function join(config, parallel, nosubtests)
   if config.template_dir ~= '' then
     tmpl = tmpl .. ' -template_dir ' .. vim.fn.shellescape(config.template_dir)
   end
-  if parallel then
-    tmpl = tmpl .. ' -parallel '
-  end
-  if nosubtests then
-    tmpl = tmpl .. ' -nosubtests '
-  end
   return tmpl
 end
 
-function M.select_tests(config, parallel, nosubtests, first, last)
+function M.select_tests(config, first, last)
   -- search function names
   local matchstr = vim.fn.matchstr
   local getline = vim.fn.getline
@@ -52,7 +46,7 @@ function M.select_tests(config, parallel, nosubtests, first, last)
   local file = vim.fn.expand('%')
   local out = vim.fn.system(config.command ..
   ' -w -only ' ..
-  vim.fn.shellescape(funcMatch) .. ' ' .. join(config, parallel, nosubtests) .. ' ' .. vim.fn.shellescape(file))
+  vim.fn.shellescape(funcMatch) .. ' ' .. join(config) .. ' ' .. vim.fn.shellescape(file))
 
   vim.notify(out, vim.log.levels.INFO, { title = 'gotests' })
 end
@@ -60,14 +54,14 @@ end
 function M.all_tests(config)
   local file = vim.fn.expand('%')
   local out = vim.fn.system(config.command ..
-  ' -w -all ' .. join(config, false, false) .. ' ' .. vim.fn.shellescape(file))
+  ' -w -all ' .. join(config) .. ' ' .. vim.fn.shellescape(file))
   vim.notify(out, vim.log.levels.INFO, { title = 'gotests' })
 end
 
 function M.exported_tests(config)
   local file = vim.fn.expand('%')
   local out = vim.fn.system(config.command ..
-  ' -w -exported ' .. join(config, false, false) .. ' ' .. vim.fn.shellescape(file))
+  ' -w -exported ' .. join(config) .. ' ' .. vim.fn.shellescape(file))
   vim.notify(out, vim.log.levels.INFO, { title = 'gotests' })
 end
 
