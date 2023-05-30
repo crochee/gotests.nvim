@@ -11,22 +11,12 @@ local function setup_commands()
     {
       name = 'GoTests',
       cmd = function(range)
-        require('gotests.autoload').select_tests(config, false, false, range.line1, range.line2)
+        require('gotests.autoload').select_tests(config, range.line1, range.line2)
       end,
       opt = {
         range = true,
       }
     },
-    {
-      name = 'GoTestsParallel',
-      cmd = function(range)
-        require('gotests.autoload').select_tests(config, true, false, range.line1, range.line2)
-      end,
-      opt = {
-        range = true,
-      }
-    },
-
     {
       name = 'GoTestsAll',
       cmd = function()
@@ -41,7 +31,6 @@ local function setup_commands()
       end,
       opt = {}
     },
-
   }
 
   for _, cmd in ipairs(cmds) do
