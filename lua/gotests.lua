@@ -47,10 +47,7 @@ function M.setup(user_config)
   if vim.fn.exists(vim.g.loaded_vim_gotests) == true then
     return
   end
-
-  local _user_config = user_config or {}
-  config = vim.tbl_deep_extend('force', config, _user_config)
-
+  config = vim.tbl_deep_extend('force', config, user_config or {})
   if vim.fn.executable(config.command) == nil then
     vim.notify('gotests binary not found.', vim.log.levels.ERROR, {
       title = 'gotests.nvim'
